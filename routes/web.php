@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\{
+    Admin\ArticleController as AdminArticleController,
     AboutController,
     ProfileController,
     HomepageController,
@@ -21,10 +22,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomepageController::class, 'index']);
 
-Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('/articles', [ArticleController::class, 'index'])->name('front.articles.index');
+Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('front.articles.show');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
+
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::resource('articles', AdminArticleController::class);
+});
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

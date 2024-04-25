@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'published_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
 
     public function user()
     {

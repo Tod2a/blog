@@ -27,7 +27,7 @@
                     </a>
                     <div class="flex space-x-4">
                         <a class="font-bold hover:text-emerald-600 transition"
-                            href="{{ route('articles.index') }}">Articles
+                            href="{{ route('front.articles.index') }}">Articles
                         </a>
                         <a class="font-bold hover:text-emerald-600 transition"
                             href="{{ route('about.index') }}">À Propos
@@ -39,7 +39,7 @@
             <main>
                 {{ $slot }}
             </main>
-            <footer class="text-center">
+            <footer class="text-center bg-slate-300 px-12 py-4 mt-auto">
                 <a href="https://facebook.com" target="_blank">Nos réseaux sociaux</a>
             </footer>
         </div>
