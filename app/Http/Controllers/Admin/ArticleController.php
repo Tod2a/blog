@@ -44,6 +44,12 @@ class ArticleController extends Controller
         $article->body = $request->validated()['body'];
         $article->published_at = $request->validated()['published_at'];
         $article->user_id = Auth::id();
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('articles', 'public');
+            $article->img_path = $path;
+        }
+
         $article->save();
 
         return redirect()->route('articles.index');
@@ -75,6 +81,12 @@ class ArticleController extends Controller
         $article->title = $request->validated()['title'];
         $article->body = $request->validated()['body'];
         $article->published_at = $request->validated()['published_at'];
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('articles', 'public');
+            $article->img_path = $path;
+        }
+
         $article->save();
 
         //return redirect()->route('articles.index');

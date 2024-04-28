@@ -24,6 +24,7 @@ class ArticleCreateRequest extends FormRequest
         return [
             'title' => 'required|unique:articles|max:255',
             'published_at' => 'nullable|date',
+            'img' => 'nullable|image|max:2048',
             'body' => 'required|max:10000',
         ];
     }

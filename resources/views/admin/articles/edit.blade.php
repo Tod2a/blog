@@ -15,7 +15,8 @@
             </div>
 
             <div class="text-gray-500">
-                <form method="POST" action="{{ route('articles.update', $article) }}" class="flex flex-col space-y-4">
+                <form method="POST" action="{{ route('articles.update', $article) }}" class="flex flex-col space-y-4"
+                    enctype="multipart/form-data">
 
                     @csrf
                     @method('PUT')
@@ -32,6 +33,16 @@
                         <x-text-input id="published_at" class="block mt-1 w-full" type="date" name="published_at"
                             :value="old('published_at', $article->published_at?->toDateString())" />
                         <x-input-error :messages="$errors->get('published_at')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="img" :value="__('Image')" />
+                        @if ($article->img_path)
+                            <img src="{{ asset('storage/' . $article->img_path) }}" alt="Image de l'article"
+                                class="aspect-auto h-64 rounded shadow mt-2 mb-4 object-cover object-center">
+                        @endif
+                        <x-text-input id="img" class="block mt-1 w-full" type="file" name="img" />
+                        <x-input-error :messages="$errors->get('img')" class="mt-2" />
                     </div>
 
                     <div>
