@@ -12,13 +12,14 @@
 
     <div class="mt-4">{!! \nl2br($article->body) !!}</div>
 
-    <div class="flex mt-8">
+    <a class="flex mt-8 hover:-translate-y-1 transition
+    " href="{{ route('profile.show', $article->user) }}">
         <x-avatar class="h-20 w-20" :user="$article->user" />
         <div class="ml-4 flex flex-col justify-center">
             <div class="text-gray-700">{{ $article->user->name }}</div>
             <div class="text-gray-500">{{ $article->user->email }}</div>
         </div>
-    </div>
+    </a>
 
     <div class="mt-8 flex items-center justify-center">
         <a href="{{ route('front.articles.index') }}" class="font-bold bg-white text-gray-700 px-4 py-2 rounded shadow">
@@ -32,14 +33,16 @@
         <div class="flex-col space-y-4">
             @forelse ($article->comments as $comment)
                 <div class="flex bg-white rounded-md shadow p-4 space-x-4">
-                    <div class="flex justify-start items-start h-full">
+                    <a class="flex justify-start items-start h-full" href="{{ route('profile.show', $comment->user) }}">
                         <x-avatar class="h-10 w-10" :user="$comment->user" />
-                    </div>
+                    </a>
                     <div class="flex flex-col justify-center w-full space-y-4">
                         <div class="flex justify-between">
                             <div class="flex space-x-4 items-center justify-center">
                                 <div class="flex flex-col justify-center">
-                                    <div class="text-gray-700">{{ $comment->user->name }}</div>
+                                    <a class="text-gray-700" href="{{ route('profile.show', $comment->user) }}">
+                                        {{ $comment->user->name }}
+                                    </a>
                                     <div class="text-gray-500 text-sm">
                                         {{ $comment->created_at->diffForHumans() }}
                                     </div>

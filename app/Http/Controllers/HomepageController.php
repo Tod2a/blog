@@ -13,7 +13,7 @@ class HomepageController extends Controller
             ->withCount('comments')
             ->orderByDesc('published_at')
             ->take(4)
-            ->get();
+            ->paginate(12);
 
         return view('homepage.index', [
             'articles' => $articles,

@@ -52,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
 });
 
+Route::get('/profile/{user}', [ProfileController::class, 'show'])->name('profile.show');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
