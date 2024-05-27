@@ -28,6 +28,11 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'avatar_path' => function () {
+                $absolutePath = fake()->image(storage_path('app/public/images'), 640, 480, 'cats', true);
+
+                return str_replace(storage_path('app/public/'), '', $absolutePath);
+            },
             'remember_token' => Str::random(10),
         ];
     }
