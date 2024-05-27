@@ -7,6 +7,7 @@ use App\Http\Controllers\{
     HomepageController,
     ArticleController
 };
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +29,11 @@ Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('front.ar
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
+    //gestion des articles
     Route::resource('articles', AdminArticleController::class);
+
+    //gestion des utilisateurs
+    Route::resource('/users', UserController::class);
 });
 
 // Gestion du profil utilisateur
