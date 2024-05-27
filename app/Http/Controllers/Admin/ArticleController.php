@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCreateRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller
 {
@@ -16,7 +19,17 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderByDesc('updated_at')->paginate(10);
+
+        Gate::authorize('viewAny', Article::class);
+
+        $id = Auth::user()->id;
+        $role = User::find($id)->role->name;
+
+        if ($role === Role::ADMIN) {
+            $articles = Article::orderByDesc('updated_at')->paginate(10);
+        } else {
+            $articles = Article::where('user_id', $id)->orderByDesc('updated_at')->paginate(10);
+        }
 
         return view(
             'admin.articles.index',
@@ -31,6 +44,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
+
+        Gate::authorize('create', Article::class);
+
         return view('admin.articles.create');
     }
 
@@ -39,6 +55,9 @@ class ArticleController extends Controller
      */
     public function store(ArticleCreateRequest $request)
     {
+
+        Gate::authorize('create', Article::class);
+
         $article = Article::make();
         $article->title = $request->validated()['title'];
         $article->body = $request->validated()['body'];
@@ -68,6 +87,9 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+
+        Gate::authorize('update', $article);
+
         return view('admin.articles.edit', [
             'article' => $article,
         ]);
@@ -78,6 +100,8 @@ class ArticleController extends Controller
      */
     public function update(ArticleUpdateRequest $request, Article $article)
     {
+        Gate::authorize('update', $article);
+
         $article->title = $request->validated()['title'];
         $article->body = $request->validated()['body'];
         $article->published_at = $request->validated()['published_at'];
@@ -98,6 +122,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+
+        Gate::authorize('delete', $article);
+
         $article->delete();
 
         return redirect()->back();

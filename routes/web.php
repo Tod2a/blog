@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomepageController::class, 'index']);
+Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 
 Route::get('/articles', [ArticleController::class, 'index'])->name('front.articles.index');
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('front.articles.show');
