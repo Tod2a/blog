@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::paginate(12);
+        $articles = Article::where('published_at', '<', now())
+        ->where('body', 'LIKE', '%'.$request->query('search').'%')
+        ->orWhere('title', 'LIKE', '%'.$request->query('search').'%')
+        ->orWhereHas('user', function ($query) use ($request) {
+            $query->where('name', 'LIKE', '%'.$request->query('search').'%');
+        })
+        ->orderByDesc('published_at')
+        ->paginate(12)
+    ;
 
         return view('articles.index', [
             'articles' => $articles,
