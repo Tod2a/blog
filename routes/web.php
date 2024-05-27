@@ -26,6 +26,13 @@ Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 Route::get('/articles', [ArticleController::class, 'index'])->name('front.articles.index');
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('front.articles.show');
 
+Route::middleware('auth')->group(function () {
+    // Ajout d'un commentaire
+    Route::post('/articles/{article}/comments', [ArticleController::class, 'addComment'])->name('front.articles.comments.add');
+    // Suppression d'un commentaire
+    Route::delete('/articles/{article}/comments/{comment}', [ArticleController::class, 'deleteComment'])->name('front.articles.comments.delete');
+});
+
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
